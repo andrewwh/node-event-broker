@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "name": "node-event-broker",
+            "script": "index.js",
+            "env": {
+                "production": true
+            },
+            "watch": false,
+            "instances": "2",
+            "exec_mode": "cluster"
+        }
+    ]
+}

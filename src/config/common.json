@@ -1,0 +1,11 @@
+{
+    "host": "localhost",
+    "port": 8080,
+    "basePath": "/api/msg/v1",
+    "logging": {
+        "level": "info",
+        "fileName": "./logs/event-broker.log",
+        "logHeartbeat": false,
+        "stdout": true
+    }    
+}

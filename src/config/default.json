@@ -1,0 +1,13 @@
+{
+    "messageService": {
+        "endpoint": "http://localhost:8080/api/msg/v1/message",
+        "timeout": 5000,
+        "hystrix": {
+            "name": "esi",
+            "errorThreshold": 10,
+            "concurrency": 5,
+            "windowLength": 10000,
+            "numberOfBuckets": 10
+        }        
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "**/db/*.ts",
+            "src/service/esi/player-service.ts"
+        ]
+    },
+    "rules": {
+        "ordered-imports": false,
+        "quotemark": [true, "single"],
+        "member-access": false,
+        "max-line-length": false,
+        "interface-name": [true, "never-prefix"],
+        "object-literal-sort-keys": false,
+        "no-namespace": true,
+        "object-literal-shorthand": false,
+        "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+        "forin": false,
+        "no-var-keyword": false,
+        "no-unused-expression": false,
+        "no-string-literal": false,
+        "only-arrow-functions": false,
+        "max-classes-per-file": true,
+        "member-ordering": [
+            true,
+            {
+              "order": [
+                "public-static-field",
+                "private-static-field",
+                "public-instance-field",
+                "private-instance-field",
+                "public-constructor",
+                "private-constructor",
+                "public-instance-method",
+                "protected-instance-method",
+                "private-instance-method"
+              ]
+            }
+          ]        
+    },
+    "rulesDirectory": []
+}

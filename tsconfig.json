@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": ["es6", "dom"],
+        "types": ["reflect-metadata", "node"],
+        "typeRoots": [ "node_modules/@types", "types" ],
+        "module": "commonjs",
+        "inlineSourceMap": false,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowUnusedLabels": true,
+        "noUnusedParameters": false,
+		"removeComments": true,
+        "noImplicitAny": false,
+        "noUnusedLocals": false,
+        "sourceRoot": "./src",
+        "rootDir": "./src"
+    },
+    "compileOnSave": false,
+	"exclude": [
+		"node_modules"
+	]    
+}
