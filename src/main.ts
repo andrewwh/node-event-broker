@@ -58,7 +58,7 @@ export class Main {
                         log.error(err);
                     }
 
-                    log.info(`Started Experience API Server on port ${this.config.port} at base ${this.config.basePath}`);
+                    log.info(`Started Event broker API Server on port ${this.config.port} at base ${this.config.basePath}`);
                 }
             );
 
