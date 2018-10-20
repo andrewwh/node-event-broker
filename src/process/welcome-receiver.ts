@@ -1,33 +1,33 @@
 import { injectable, inject } from 'inversify';
-import {Message, MessageStatus} from '../model/message';
-import {MessageQueueType, MessageQueue} from '../service/event';
+import {Message, MessageStatus, MessageBuilder} from '../model/message';
+import {EventBusType, EventBus} from '../core/event';
 import {Salutation} from '../model/api'
 import {filter} from 'rxjs/operators';
-import {Logger} from '../service/logging';
+import {Logger} from '../core/logging';
 import * as Bunyan from 'bunyan';
 import {toGoodBye} from '../transform/core';
-import * as R from 'ramda';
+
 
 @injectable()
 export default class WelcomeMessageReceiver {
-    constructor(@inject(MessageQueueType) private queue: MessageQueue,
+    constructor(@inject(EventBusType) private bus: EventBus,
                 @inject(Logger) private log: Bunyan        
     ) {
         this.observe();
     }    
 
     private observe(): void {
-        this.queue
-            .stream<Salutation>()
+        this.bus
+            .dequeue<Salutation>()
             .pipe(
-                filter( (v: Message<Salutation>) => v.status == MessageStatus.Arrived && v.source == 'welcome' )
+                filter( (v: Message<Salutation>) => v.status == MessageStatus.Arrived && v.type == 'welcome' )
             )
-            .subscribe( (m: Message<Salutation>) => {
-                this.log.info({event: m}, `WelcomeMessageReceiver: Arrived welcome message`);
+            .subscribe( (original: Message<Salutation>) => {
+                this.log.info({event: original}, `Arrived welcome message`);
 
-                const message = this.queue.enqueue(R.merge(m, {status: MessageStatus.Transformed, type: 'goodbye'}), toGoodBye(m.payload));
-
-                this.log.info({event: message}, `WelcomeMessageReceiver: Requeued transformed message`);
+                const message = this.bus
+                    .enqueue(MessageBuilder.extend(original, 
+                                        {status: MessageStatus.Transformed, type: 'goodbye', payload: toGoodBye(original.payload)}));
             })
     }
 }

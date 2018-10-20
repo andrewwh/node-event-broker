@@ -4,10 +4,6 @@
         "tslint:recommended"
     ],
     "linterOptions": {
-        "exclude": [
-            "**/db/*.ts",
-            "src/service/esi/player-service.ts"
-        ]
     },
     "rules": {
         "ordered-imports": false,

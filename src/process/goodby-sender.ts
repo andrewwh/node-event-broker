@@ -1,9 +1,9 @@
 import { injectable, inject } from 'inversify';
 import {Message, MessageStatus} from '../model/message';
-import {MessageQueueType, MessageQueue} from '../service/event';
+import {EventBusType, EventBus} from '../core/event';
 import {Salutation} from '../model/api'
 import {filter} from 'rxjs/operators';
-import {Logger} from '../service/logging';
+import {Logger} from '../core/logging';
 import * as Bunyan from 'bunyan';
 import {MessageService, MessageServiceType} from '../service/sinks';
 import {StrictThrottle} from '../util'
@@ -12,7 +12,7 @@ import {StrictThrottle} from '../util'
 export default class GoodbyeMessageSender {
     private throttle: StrictThrottle<Message<Salutation>>;
 
-    constructor(@inject(MessageQueueType) private queue: MessageQueue,
+    constructor(@inject(EventBusType) private bus: EventBus,
                 @inject(Logger) private log: Bunyan,
                 @inject(MessageServiceType) private messages: MessageService
 
@@ -27,13 +27,13 @@ export default class GoodbyeMessageSender {
     }
 
     private observe(): void {
-        this.queue
-            .stream<Salutation>()
+        this.bus
+            .dequeue<Salutation>()
             .pipe(
                 filter( (v: Message<Salutation>) => v.status == MessageStatus.Transformed && v.type == 'goodbye' )
             )
             .subscribe( (m: Message<Salutation>) => {
-                this.log.info({event: m}, `GoodbyeMessageSender: Queueing goodbye message to event service`);
+                this.log.info({event: m}, `Queueing goodbye message to event service`);
                 this.throttle.push(m);
             })
     }

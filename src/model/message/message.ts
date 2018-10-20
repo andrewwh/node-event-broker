@@ -1,5 +1,6 @@
 import {MessageStatus} from './message-status';
 import {v4} from 'uuid';
+import { MessageAction } from './message-action';
 
 /**
  * Basic message on the queue (immutable)
@@ -8,17 +9,22 @@ export interface Message<T> {
     /**
      * UUID
      */
-    id?: string;
+    id: string;
 
     /**
      * Message status or state
      */
-    status?: MessageStatus;
+    status: MessageStatus;
+
+    /**
+     * Desired action for the message on the destination(s)
+     */
+    action: MessageAction;
 
     /**
      * Arrival time of message
      */
-    time?: Date;
+    time: Date;
 
     /**
      * Extra meta data about the message
@@ -44,4 +50,9 @@ export interface Message<T> {
      * Previous message if it has been transformed
      */
     previous?: Message<any>;
+
+    /**
+     * Original message if it has been transformed
+     */
+    original?: Message<any>;    
 }
