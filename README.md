@@ -8,7 +8,7 @@ All events are transient and not at all durable. Use Kafka or some Apache MQ if 
 The idea is to extend the application by _only_ adding a new process, transformer or data sink. Because each of these components does not not know about the others this makes the system very loosly coupled.
 
 ## The current experiment flow
-- From a client (such as postman) POST `{message: "Hello World!"}` to `http://localhost:8080/api/msg/v1/message/welcome`
+- From a client (such as postman) POST `{"message": "Hello World!"}` to `http://localhost:8080/api/msg/v1/message/welcome`
 - The Http controller *message-controller* receives the message and enqueues the message with a source of *welcome*
 - The processor *welcome-receiver* transforms the message and it is requeued as *goodbye*
 - The processor *goodbye-sender* sends the message to a downstream service using a Http POST. In this case the data sink is _this_ message service calling `http://localhost:8080/api/msg/v1/message/goodbye`.
@@ -33,7 +33,6 @@ See [the container factory](src/container-factory.ts)
 ### TODO
 - Use Hysterix in the data sinks
 - Implement back pressure
-- Split queues by some means such as *source*
 
 ## Using gulp to do everything
 I like gulp, so it does everything.
